@@ -12,7 +12,7 @@ async function start() {
   app.use(express.json());
 
   // IMAGES
-  app.use("/images", );
+  app.use("/images", express.static(path.join(__dirname, '../assets')));
 
   app.get("/api/products", async (req, res) => {
     await client.connect();
