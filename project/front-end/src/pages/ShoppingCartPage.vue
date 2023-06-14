@@ -1,5 +1,4 @@
 <template>
-  <h1>Shopping Cart</h1>
   <!-- v-if="" -->
   <div v-if="cartItems.length > 0">
     <ShoppingCartList :products="cartItems" />
