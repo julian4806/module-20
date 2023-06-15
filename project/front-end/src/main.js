@@ -8,9 +8,6 @@ import ProductsPage from "./pages/ProductsPage.vue";
 import ProductDetailPage from "./pages/ProductDetailPage.vue";
 import NotFoundPage from "./pages/NotFoundPage.vue";
 
-
-
-
 createApp(App)
   .use(
     VueRouter.createRouter({
