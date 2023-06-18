@@ -204,3 +204,12 @@ h1 {
   flex: 1;
   margin: auto;
 }
+.image-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.image-wrap > img {
+  width: 400px;
+}
