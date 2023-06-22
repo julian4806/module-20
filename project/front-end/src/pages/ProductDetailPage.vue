@@ -10,6 +10,7 @@
         Add to Cart
       </button>
       <button class="grey-button" v-else>Item is already in Cart</button>
+      <button class="sign-in" @click="signIn">Sign in to ad to Cart</button>
     </div>
   </div>
   <div v-else>
@@ -17,6 +18,13 @@
   </div>
 </template>
 <script>
+import {
+  getAuth,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+} from "firebase";
+
 import axios from "axios";
 import NotFoundPage from "./NotFoundPage.vue";
 
@@ -42,9 +50,29 @@ export default {
       });
       alert("Succesfully added item to cart!");
     },
+
+    async signIn() {
+      const email = prompt("Please enter your email to sign in");
+      const auth = getAuth();
+      const actionCodeSettings = {
+        url: `http://localhost:8080/products/${this.$route.params.product.productId}`,
+        handleCodeInApp: true,
+      };
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      alert("A login link was sent to your email");
+      window.localStorage.setItem("emailForSignIn", email);
+    },
   },
   components: { NotFoundPage },
   async created() {
+    const auth = getAuth();
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      const email = window.localStorage.getItem("emailForSignIn");
+      await signInWithEmailLink(auth, email, window.location.href);
+      alert("Successfully signed in!");
+      window.localStorage.removeItem("emailForSignIn");
+    }
+
     const response = await axios.get(
       `/api/products/${this.$route.params.productId}`
     );
